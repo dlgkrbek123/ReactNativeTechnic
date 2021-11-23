@@ -1,0 +1,48 @@
+-------------------------------------------------------
+
+nvm 설치
+ 
+  curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
+  nvm install --lts
+
+-------------------------------------------------------
+
+Java Development Kit(JDK)
+
+- Aos개발을 위해 JDK를 설치
+
+1. Homebrew 설치
+
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+2. jdk 설치
+
+brew install --cask adoptopenjdk/openjdk/adoptopenjdk8
+javac -version // 설치 확인
+
+-------------------------------------------------------
+
+안드로이드 스튜디오 설치
+
+- 안드로이드 앱을 개발하기 위한 필수품
+
+  https://developer.android.com/studio/index.html
+
+
+- 안드로이드 환경 변수 설정 ($HOME/.zshrc를 수정)
+
+export ANDROID_HOME=$HOME/Library/Android/sdk
+export PATH=$PATH:$ANDROID_HOME/emulator
+export PATH=$PATH:$ANDROID_HOME/tools
+export PATH=$PATH:$ANDROID_HOME/tools/bin
+export PATH=$PATH:$ANDROID_HOME/platform-tools 
+  
+-------------------------------------------------------
+
+XCode와 CocoaPods 설치 
+
+- iOS 개발을 위한 툴
+- 앱 스토어
+- sudo gem install cocoapods
+
+-------------------------------------------------------
