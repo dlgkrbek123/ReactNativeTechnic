@@ -1,0 +1,33 @@
+-------------------------------------------------------
+
+StatusBar
+- 모바일 기기 상단 시간을 보여주는 상태영역
+
+- 안드에서는 StatusBar 컴포넌트에 backgounrdColor를 설정해서 수정가능
+
+<>
+  <StatusBar backgroundColor="#26a69a" />
+  <View style={styles.block}>
+    <Text style={styles.dateText}>{formatted}</Text>
+  </View>
+</>
+
+
+- iOS에서는 배경색상 지정불가 상단여백을 없애고 해당 영역을 View로 채워야함
+  SafeAreaView 컴포넌트가 상하단에 여백을줘서 안전한 영역에만 UI가 렌더링
+  되는데 상단만 여백을 제거할 수는 없다.
+
+-------------------------------------------------------
+
+react-native-safe-area-context
+
+- 특정부분의 여백만 비활성하기 위해 위의 서드파티 라이브러리를 활용
+- SafeAreaProvider로 전체앱을 감싸고 SafeAreaView로 
+  하단 여백만 존재하게 감쌈
+  
+  안드는 StatusBar의 backgroundColor로 색상지정
+  iOS는 useSafeAreaInsets로 top을 계산하여 빈 View를 그리게 함
+
+  글씨 색상은 barStyle props를 수정해서 적용하여 양 플랫폼에 적용
+
+-------------------------------------------------------
