@@ -1,0 +1,127 @@
+-------------------------------------------------------
+
+- 타이틀 영역을 헤더라고 한다.
+
+-------------------------------------------------------
+
+- 타이틀 텍스트는 두가지 방법으로 커스터마이징가능하다.
+
+1. Stack.Screen의 props를 수정
+
+<Stack.Screen
+  name="Home"
+  component={HomeScreen}
+  options={{
+    title: '홈',
+  }}
+/>
+
+<Stack.Screen>의 options props에서 
+파라미터를 조회하려면 함수를 넘겨야 한다
+
+<Stack.Screen
+  name="Detail"
+  component={DetailScreen}
+  options={({route}) => ({
+    title: `상세 정보 - ${route.params.id}`,
+  })}
+/>
+
+
+
+2. navigation.setOptions 호출
+
+navigation.setOptions({ title: "홈"})
+
+-------------------------------------------------------
+
+- 헤더 스타일 또한 커스터마이징 가능하다.
+
+<Stack.Screen
+  name="Home"
+  component={HomeScreen}
+  options={({route}) => ({
+    title: "홈",
+    headerStyle: {
+      backgroundColor: "#29b6f6",
+    },
+    headerTintColor: "#ffffff",
+    headerTitleStyle: {
+      fontWeight: 'bold',
+      fontSize: 20
+    }
+  })}
+/>
+
+- headerLeft, headerTitle, headerRight props를
+  설정해서 헤더에 노출될 내용을 수정할 수 있다.
+
+- options의 headerShown을 설정해서 헤더를 숨길 수 있다.
+
+- 헤더와 관련된 설정을 각 screen에만 적용하는 것이 아닌 모든 화면에
+  적용하고 싶다면 Stack.Navigator에 screenOptions를 설정!
+
+-------------------------------------------------------
+
+import React from 'react';
+import {NavigationContainer} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {View, Text, TouchableOpacity} from 'react-native';
+import HomeScreen from './screens/HomeScreen';
+import DetailScreen from './screens/DetailScreen';
+
+const Stack = createNativeStackNavigator();
+
+const App = () => {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="Home">
+        <Stack.Screen
+          name="Home"
+          component={HomeScreen}
+          options={({route}) => ({
+            title: '홈',
+            headerStyle: {
+              backgroundColor: '#29b6f6',
+            },
+            headerTintColor: '#ffffff',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+              fontSize: 20,
+            },
+          })}
+        />
+        <Stack.Screen
+          name="Detail"
+          component={DetailScreen}
+          options={{
+            headerBackVisible: false,
+            headerLeft: ({onPress}) => {
+              return (
+                <TouchableOpacity onPress={onPress}>
+                  <Text>Left</Text>
+                </TouchableOpacity>
+              );
+            },
+            headerTitle: ({children}) => {
+              return (
+                <View>
+                  <Text>{children}</Text>
+                </View>
+              );
+            },
+            headerRight: () => (
+              <View>
+                <Text>Right</Text>
+              </View>
+            ),
+          }}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+};
+
+export default App;
+
+-------------------------------------------------------
