@@ -1,0 +1,45 @@
+-------------------------------------------------------
+
+하단 탭 네비게이터
+- 하단에 탭을 보여주는 내비게이터
+
+npm install @react-navigation/bottom-tabs react-native-vector-icons
+cd ios
+pod install
+
+-------------------------------------------------------
+
+- 아래와 같이 작성하여 스크린을 설정
+- 상단 헤더는 Navigator의 screenOptions으로 공통옵션을 주거나
+  Tab.Screen에 options를 설정하여 개별 커스터마이징 가능
+
+const App = () => {
+  return (
+    <NavigationContainer>
+      <Tab.Navigator initialRouteName="Home">
+        <Tab.Screen name="Home" component={HomeScreen} />
+        <Tab.Screen name="Search" component={SearchScreen} />
+        <Tab.Screen name="Notification" component={NotificationScreen} />
+        <Tab.Screen name="Message" component={MessgaeScreen} />
+      </Tab.Navigator>
+    </NavigationContainer>
+  );
+};
+
+-------------------------------------------------------
+
+- 매터리얼 아이콘을 통해 아래와 같이 하단탭의 이름과 아이콘을 튜닝
+- Tab.Navigator의 tabBarOptions를 통해서 하단탭의 스타일을 튜닝 가능
+
+<Tab.Screen
+  name="Message"
+  component={MessgaeScreen}
+  options={{
+    title: '메시지',
+    tabBarIcon: ({color, size}) => {
+      return <Icon name="message" color={color} size={size} />;
+    },
+  }}
+/>
+
+-------------------------------------------------------

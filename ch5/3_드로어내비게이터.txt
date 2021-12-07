@@ -43,6 +43,31 @@ const Drawer = createDrawerNavigator();
   드로어의 스타일을 변경 가능
 
 - 네비게이터 스택 내비게이션과 비슷하게 상단에 헤더가 노출된다.
-- 
 
 -------------------------------------------------------
+
+ <NavigationContainer>
+      <Drawer.Navigator
+        initialRouteName="Home"
+        drawerPosition="left"
+        backBehavior="history"
+        screenOptions={{
+          drawerActiveBackgroundColor: '#fb8c00',
+          drawerActiveTintColor: 'white',
+        }}>
+        <Drawer.Screen
+          name="Home"
+          component={HomeScreen}
+          options={{title: '홈'}}
+        />
+        <Drawer.Screen
+          name="Setting"
+          component={SettingScreen}
+          options={{title: '설정'}}
+        />
+      </Drawer.Navigator>
+    </NavigationContainer>
+
+-------------------------------------------------------
+
+
