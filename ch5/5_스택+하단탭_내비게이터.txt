@@ -1,0 +1,79 @@
+-------------------------------------------------------
+
+- 스택 내비게이터와 하단탭 내비게이터를 함께 사용해보자
+- 스택으로 전체를 감싸고 그 내부에서 하단탭으로 분류
+
+- Tab.Navigator를 중첩구조로 만들어 구성한다.
+- 내부에 들어가는 하단탭 내베게이터에서는 헤더를 안그리게 설정해야
+  헤더가 두개 그려지는 불상사를 막을 수 있다.
+
+-------------------------------------------------------
+
+- App.js (스택 내비게이터) 
+
+<NavigationContainer>
+  <Stack.Navigator>
+    <Stack.Screen
+      name="Main"
+      component={MainScreen}
+      options={{
+        headerShown: false,
+      }}
+    />
+    <Stack.Screen name="Detail" component={DetailScreen} />
+  </Stack.Navigator>
+</NavigationContainer>
+
+
+
+- MainScreen (하단 탭 내비게이터)
+
+<Tab.Navigator
+  initialRouteName="Home"
+  screenOptions={{
+    tabBarActiveTintColor: '#fb8c00',
+    tabBarShowLabel: false,
+  }}>
+  <Tab.Screen
+    name="Home"
+    component={HomeScreen}
+    options={{
+      title: '홈',
+      tabBarIcon: ({color, size}) => (
+        <Icon name="home" color={color} size={size} />
+      ),
+    }}
+  />
+  <Tab.Screen
+    name="Search"
+    component={SearchScreen}
+    options={{
+      title: '검색',
+      tabBarIcon: ({color, size}) => (
+        <Icon name="search" color={color} size={size} />
+      ),
+    }}
+  />
+  <Tab.Screen
+    name="Notification"
+    component={NotificationScreen}
+    options={{
+      title: '알림',
+      tabBarIcon: ({color, size}) => (
+        <Icon name="notification" color={color} size={size} />
+      ),
+    }}
+  />
+  <Tab.Screen
+    name="Message"
+    component={MessageScreen}
+    options={{
+      title: '메시지',
+      tabBarIcon: ({color, size}) => (
+        <Icon name="message" color={color} size={size} />
+      ),
+    }}
+  />
+</Tab.Navigator>
+
+-------------------------------------------------------
