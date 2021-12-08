@@ -1,0 +1,36 @@
+-------------------------------------------------------
+
+매터리얼 상단 탭 내비게이터
+
+- 하단탭 내비게이터와 유사하나 탭이 상단에 위치함
+- 탭 클릭시 물결효과 발생
+- 화면 스와이프로 탭 이동 가능
+
+-------------------------------------------------------
+
+- 아래의 라이브러리를 설치
+
+@react-navigation/material-top-tabs 
+react-native-tab-view
+react-native-pager-view
+
+-------------------------------------------------------
+
+import {createMaterialTopTabNavigator} from "@react-navigation/material-top-tabs"
+
+const Tab = createMaterialTopTabNavigator()
+
+- 위와 같이 생성하면 기존의 하단 탭 내비게이터를 대체할 수 있다.
+- 다만 탭바 아이콘의 크기를 직접 지정해야 한다.
+
+<Tab.Screen 
+  name="Home"
+  component={HomeScreen}
+  options={{
+    tabBarIcon : ({color}) => <Icon name="home" color={color} size={24} />
+  }}
+/>
+
+- 또한 상단헤더를 노출하지 않는다
+
+-------------------------------------------------------

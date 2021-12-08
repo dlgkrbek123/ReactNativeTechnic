@@ -1,0 +1,64 @@
+-------------------------------------------------------
+
+- 리액트 내비게이션에 제공해주는 hooks가 있다.
+- Screen으로 사용되는 컴포넌트는 props로
+  navigation, route객체를 내려받는다.
+
+- 하지만 Screen으로 사용되지 않는 컴포넌트에서는 받을 수 없음
+- 스크린으로 사용중인 컴포넌트로부터 내려받아야 한다.
+- 아니면 지금부터 소개하는 hooks를 활용하면 된다.
+
+-------------------------------------------------------
+
+useNavigation
+
+- Screen으로 사용되고 있지 않은 컴포넌트에서도 navigation
+  객체에 접근가능
+
+import { useNavigation } from "@react-navigation/native"
+
+const Comp = () => {
+  const navigation = useNavigation()
+  const onButtonClick = () => navigation.push("Detail", { id: 1 })
+
+  return JSX
+}
+
+-------------------------------------------------------
+
+useRoute
+
+- Screen으로 사용되고 있지 않은 컴포넌트에서도 route객체에 접근 가능
+
+import { useRoute } from "@react-navigation/native"
+
+const IdText = () => {
+  const route = useRoute()
+  const idParam = route.params.id
+
+  return <Text>{idParam}</Text>
+}
+
+-------------------------------------------------------
+
+useFocusEffect
+
+- 화면에 포커스가 잡혔을 때 특정 작업을 가능하게 해주는 hooks
+- 스택 내비게이터에서 화면은 계속 쌓일 뿐 이전화면이 언마운트 되는건 아님
+
+import {useCallback} from "react"
+import { useFocusEffect } from "@react-navigation/native"
+
+const HomeScreen = () => {
+  useFocusEffect(useCallback(() => {
+    console.log("이 화면에 접근")
+
+    return () => {
+      console.log("다른 화면으로 넘어감")
+    }
+  },[]))
+
+  return <View></View>
+}
+
+-------------------------------------------------------
