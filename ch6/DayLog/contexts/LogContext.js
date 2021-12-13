@@ -16,9 +16,15 @@ export const LogContextProvidr = ({children}) => {
 
     setLogs([log, ...logs]);
   };
+  const onModify = modified => {
+    setLogs(logs.map(log => (log.id === modified.id ? modified : log)));
+  };
+  const onRemove = id => {
+    setLogs(logs.filter(log => log.id !== id));
+  };
 
   return (
-    <LogContext.Provider value={{logs, onCreate}}>
+    <LogContext.Provider value={{logs, onCreate, onModify, onRemove}}>
       {children}
     </LogContext.Provider>
   );
