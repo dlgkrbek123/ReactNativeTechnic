@@ -1,47 +1,42 @@
-import React, {useRef} from 'react';
-import {Animated, Button, View, Text, StyleSheet} from 'react-native';
+import React, {useContext, useState, useMemo} from 'react';
+import {format} from 'date-fns';
+import LogContext from '../contexts/LogContext';
+import CalendarView from '../components/CalendarView';
+import FeedList from '../components/FeedList';
 
 const CalendarScreen = () => {
-  const animation = useRef(new Animated.Value(1)).current;
+  const {logs} = useContext(LogContext);
+  const [selectedDate, setSelectedDate] = useState(
+    format(new Date(), 'yyyy-MM-dd'),
+  );
 
-  console.log(animation);
+  const markedDates = useMemo(
+    () =>
+      logs.reduce((acc, cur) => {
+        const formattedDate = format(new Date(cur.date), 'yyyy-MM-dd');
+        acc[formattedDate] = {marked: true};
 
-  const onFadeIn = () => {
-    Animated.timing(animation, {
-      toValue: 1,
-      useNativeDriver: true,
-    }).start();
-  };
-  const onFadeOut = () => {
-    Animated.timing(animation, {
-      toValue: 0,
-      useNativeDriver: true,
-    }).start();
-  };
+        return acc;
+      }, {}),
+    [logs],
+  );
+
+  const filteredLogs = logs.filter(
+    log => format(new Date(log.date), 'yyyy-MM-dd') === selectedDate,
+  );
 
   return (
-    <View>
-      <Animated.View
-        style={[
-          styles.rectangle,
-          {
-            opacity: animation,
-          },
-        ]}
-      />
-      <Button title="FadeIn" onPress={onFadeIn} />
-      <Button title="FadeOut" onPress={onFadeOut} />
-    </View>
+    <FeedList
+      logs={filteredLogs}
+      ListHeaderComponent={
+        <CalendarView
+          markedDates={markedDates}
+          selectedDate={selectedDate}
+          onSelectDate={setSelectedDate}
+        />
+      }
+    />
   );
 };
-
-const styles = StyleSheet.create({
-  block: {},
-  rectangle: {
-    width: 100,
-    height: 100,
-    backgroundColor: 'black',
-  },
-});
 
 export default CalendarScreen;
