@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useReducer, useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {format} from 'date-fns';
 import {ko} from 'date-fns/locale';
@@ -6,27 +6,34 @@ import {View, Text, Pressable, StyleSheet} from 'react-native';
 import TransparentCircleButton from '../components/TransparentCircleButton';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 
+const initialState = {mode: 'date', visible: false};
+
+const reducer = (state, action) => {
+  switch (action.type) {
+    case 'open':
+      return {mode: action.mode, visible: true};
+    case 'close':
+      return {...state, visible: false};
+    default:
+      throw new Error('Unhandled action type');
+  }
+};
+
 const WriteHeader = ({date, onChangeDate, onSave, onAskRemove, isEditing}) => {
   const navigation = useNavigation();
   const onGoBack = () => navigation.pop();
 
-  const [mode, setMode] = useState('date');
-  const [visible, setVisible] = useState(false);
+  const [state, dispatch] = useReducer(reducer, initialState);
+  const open = mode => dispatch({type: 'open', mode});
+  const close = () => dispatch({type: 'close'});
 
-  const onPressDate = () => {
-    setMode('date');
-    setVisible(true);
-  };
-  const onPressTime = () => {
-    setMode('time');
-    setVisible(true);
-  };
+  const onPressDate = () => open('date');
+  const onPressTime = () => open('time');
 
   const onConfirm = selectedDate => {
-    setVisible(false);
+    close();
     onChangeDate(selectedDate);
   };
-  const onCancel = () => setVisible(false);
 
   return (
     <View style={styles.block}>
@@ -60,10 +67,10 @@ const WriteHeader = ({date, onChangeDate, onSave, onAskRemove, isEditing}) => {
         </Pressable>
       </View>
       <DateTimePickerModal
-        isVisible={visible}
-        mode={mode}
+        isVisible={state.visible}
+        mode={state.mode}
         onConfirm={onConfirm}
-        onCancel={onCancel}
+        onCancel={close}
         date={date}
       />
     </View>
